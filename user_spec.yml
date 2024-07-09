@@ -11,9 +11,10 @@ components:
     userData:
       type: object
       required:
-        - email
-        - firstName
+        - id
       properties:
+        id:
+          type: string
         email:
           type: string
         profileName:
@@ -69,16 +70,28 @@ components:
         educationInstitute:
           type: string
 
-    userStatus:
+    userStatusQuery:
       type: object
       properties:
-        email:
-          type: string
-        status:
-          type: string
-          enum:
-            - active
-            - deactivate
+        id:
+          type: array
+          items:
+            type: string
+
+    userStatus:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          status:
+            type: string
+          deactivateAt:
+            type: string
+            format: date-time
+
+
 
     userUpdate:
       type: object
@@ -116,23 +129,60 @@ components:
           type: string
         interests:
           type: array
+          items:
+            type: string
         hobbies:
           type: array
+          items:
+            type: string
         workPlace:
           type: string
         profession:
           type: string
         educationInstitute:
           type: string
+    QueryRequest:
+      type: object
+      properties:
+        relationshipStatus:
+          type: string
+          enum:
+            - single
+            - inRelationship
+            - married
+            - complicated
+        State:
+          type: string
+        currentCity:
+          type: string
+        birthCity:
+          type: string
+        interests:
+          type: array
+          items:
+            type: string
+        hobbies:
+          type: array
+          items:
+            type: string
+        workPlace:
+          type: string
+        profession:
+          type: string
+        educationInstitute:
+          type: string
+
+
+
 paths:
-  /user/{email}:
+  /user/{id}:
     get:
-      summary: Get user data by providing user email
+      summary: Get user data by providing user id
       tags:
         - User
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -174,12 +224,12 @@ paths:
                   value:
                     message: Not found
     put:
-      summary: Update user data by providing user email
+      summary: Update user data by providing user id
       tags:
         - User
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -215,12 +265,12 @@ paths:
                     message: Method not allowed
 
     delete:
-      summary: Permanently delete the user account by providing user email
+      summary: Permanently delete the user account by providing user id
       tags:
         - User
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -306,12 +356,12 @@ paths:
                   value:
                     message: Method not allowed
     patch:
-      summary: Activate/Deactivate user account by providing user email
+      summary: Activate/Deactivate user account by providing user id
       tags:
         - Status
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -383,4 +433,31 @@ paths:
               examples:
                 Method not allowed:
                   value:
-                    message: Method not allowed
+                    message: Method not allowed  /users:
+    post:
+      summary: Query users with filters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful response
+
+  /users/status:
+    get:
+      summary: Get user(s) account status
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/userStatusQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatus'
