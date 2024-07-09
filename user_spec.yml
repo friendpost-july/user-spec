@@ -1,0 +1,211 @@
+openapi: '3.0.3'
+info:
+  title: User Service API Spec
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/v1
+
+
+components:
+  schemas:
+    userData:
+      type: object
+      required:
+        - email
+        - firstName
+      properties:
+        email:
+          type: string
+        profileName:
+          type: string
+        profilePic:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - preferNotSay
+            - others
+        dob:
+          type: string
+          format: date
+        relationshipStatus:
+          type: string
+          enum:
+            - single
+            - inRelationship
+            - married
+            - complicated
+        State:
+          type: string
+        currentCity:
+          type: string
+        birthCity:
+          type: string
+        interests:
+          type: array
+        hobbies:
+          type: array
+        status:
+          type: string
+          enum:
+            - active
+            - deactivate
+        createdOn:
+          type: string
+          format: date-time
+        updatedOn:
+          type: string
+          format: date-time
+        workPlace:
+          type: string
+        profession:
+          type: string
+        educationInstitute:
+          type: string
+    
+    userStatus:
+      type: object
+      properties:
+        email:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - deactivate
+    
+    userUpdate:
+      type: object
+      properties:
+        profileName:
+          type: string
+        profilePic:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - preferNotSay
+            - others
+        dob:
+          type: string
+          format: date
+        relationshipStatus:
+          type: string
+          enum:
+            - single
+            - inRelationship
+            - married
+            - complicated
+        State:
+          type: string
+        currentCity:
+          type: string
+        birthCity:
+          type: string
+        interests:
+          type: array
+        hobbies:
+          type: array
+        workPlace:
+          type: string
+        profession:
+          type: string
+        educationInstitute:
+          type: string
+paths:
+  /users/{email}:
+    get:
+      summary: Get user data by providing user email
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userData'
+              # example:
+              #   success: true
+              #   data:
+    put:
+      summary: Update user data by providing user email
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Deactivate user account by providing user email
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    
+  /users/status/{email}:
+    get:
+      summary: Get user account status
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatus'
+           
+  /users:
+    post:
+      summary: Create a new user account
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/userData'
+      responses:
+        '200':
+          description: OK
+
+
