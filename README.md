@@ -18,8 +18,10 @@ Container_Boundary(userservice, "User Management") {
 
 Container_Ext(webapp,"Web Application")
 Container_Ext(friendsservice,"Friends Service")
+Container_Ext(timelineservice,"TimeLine Service")
 
 Rel(webapp, nodeapp, "signs up")
+Rel(timelineservice, nodeapp, "get user status")
 Rel(friendsservice, nodeapp, "gets profile data")
 
 UpdateRelStyle(webapp, nodeapp, $offsetY="-40")

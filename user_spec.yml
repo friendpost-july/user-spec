@@ -77,7 +77,7 @@ components:
           type: array
           items:
             type: string
-    
+           
     userStatus:
       type: array
       items:
@@ -144,33 +144,42 @@ components:
     QueryRequest:
       type: object
       properties:
-        relationshipStatus:
-          type: string
-          enum:
-            - single
-            - inRelationship
-            - married
-            - complicated
-        State:
-          type: string
-        currentCity:
-          type: string
-        birthCity:
-          type: string
-        interests:
-          type: array
-          items:
-            type: string
-        hobbies:
-          type: array
-          items:
-            type: string
-        workPlace:
-          type: string
-        profession:
-          type: string
-        educationInstitute:
-          type: string
+        pageNum:
+          type: integer
+        all:
+          type: boolean
+        size:
+          type: integer
+        filter:
+          type: object
+          properties:
+              relationshipStatus:
+                type: string
+                enum:
+                  - single
+                  - inRelationship
+                  - married
+                  - complicated
+              State:
+                type: string
+              currentCity:
+                type: string
+              birthCity:
+                type: string
+              interests:
+                type: array
+                items:
+                  type: string
+              hobbies:
+                type: array
+                items:
+                  type: string
+              workPlace:
+                type: string
+              profession:
+                type: string
+              educationInstitute:
+                type: string
 
 
 
