@@ -8,6 +8,7 @@ servers:
 
 components:
   schemas:
+
     userData:
       type: object
       required:
@@ -30,7 +31,7 @@ components:
           enum:
             - male
             - female
-            - preferNotSay
+            - preferNotToSay
             - others
         dob:
           type: string
@@ -42,7 +43,7 @@ components:
             - inRelationship
             - married
             - complicated
-        State:
+        state:
           type: string
         currentCity:
           type: string
@@ -70,6 +71,10 @@ components:
         educationInstitute:
           type: string
 
+    getUsers:
+      type: array
+      items:
+        $ref: "#/components/schemas/userData"
     userStatusQuery:
       type: object
       properties:
@@ -246,20 +251,17 @@ components:
 
 
 paths:
-  /users/{id}:
-    get:
-      summary: Get user data by providing user id
+  /users/:
+    post:
+      summary: Get user data by providing user ids
       tags:
         - User
-      parameters:
-      - name: id
-        description: Registered user id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/getUsers'
+
       responses:
         '200':
           description: OK
@@ -294,6 +296,7 @@ paths:
                 not found:
                   value:
                     message: Not found
+  /users/{id}:
     put:
       summary: Update user data by providing user id
       tags:
@@ -466,7 +469,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
-  /users:
+  /users/create:
     post:
       summary: Create a new user account
       tags:
