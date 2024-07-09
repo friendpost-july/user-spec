@@ -8,12 +8,11 @@ servers:
 
 components:
   schemas:
-
-
     userData:
       type: object
       required:
-        - id
+        - email
+        - fullName
       properties:
         id:
           type: string
@@ -23,9 +22,7 @@ components:
           type: string
         profilePic:
           type: string
-        firstName:
-          type: string
-        lastName:
+        fullName:
           type: string
         gender:
           type: string
@@ -92,8 +89,6 @@ components:
             type: string
             format: date-time
 
-
-
     userUpdate:
       type: object
       properties:
@@ -101,9 +96,7 @@ components:
           type: string
         profilePic:
           type: string
-        firstName:
-          type: string
-        lastName:
+        fullName:
           type: string
         gender:
           type: string
@@ -161,8 +154,6 @@ components:
                   - inRelationship
                   - married
                   - complicated
-              State:
-                type: string
               currentCity:
                 type: string
               birthCity:
@@ -181,6 +172,8 @@ components:
                 type: string
               educationInstitute:
                 type: string
+              status:
+                type: boolean
 
     QueryResponse:
       type: object
@@ -202,9 +195,7 @@ components:
                 type: string
               profilePic:
                 type: string
-              firstName:
-                type: string
-              lastName:
+              fullName:
                 type: string
               gender:
                 type: string
