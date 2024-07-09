@@ -310,7 +310,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
-  /user/status/{email}:
+  /user/status/{id}:
     get:
       summary: Get user account status
       tags:
@@ -433,9 +433,12 @@ paths:
               examples:
                 Method not allowed:
                   value:
-                    message: Method not allowed  /users:
+                    message: Method not allowed
+  /users:
     post:
       summary: Query users with filters
+      tags:
+        - User
       requestBody:
         required: true
         content:
@@ -449,6 +452,8 @@ paths:
   /users/status:
     get:
       summary: Get user(s) account status
+      tags:
+        - Status
       requestBody:
         content:
           application/json:
@@ -461,3 +466,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userStatus'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Bad Request:
+                  value:
+                    success: false
+                    message: Bad Request
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
