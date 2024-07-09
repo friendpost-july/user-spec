@@ -43,33 +43,28 @@ components:
             - inRelationship
             - married
             - complicated
-        state:
-          type: string
         currentCity:
           type: string
-        birthCity:
+        homeTown:
           type: string
         interests:
           type: array
         hobbies:
           type: array
         status:
-          type: string
-          enum:
-            - active
-            - deactivate
-        createdOn:
+          type: boolean
+        createdAt:
           type: string
           format: date-time
-        updatedOn:
+        updatedAt:
           type: string
           format: date-time
         workPlace:
           type: string
         profession:
           type: string
-        educationInstitute:
-          type: string
+        educationInstitutes:
+          type: array
 
     getUsers:
       type: array
