@@ -181,6 +181,70 @@ components:
               educationInstitute:
                 type: string
 
+    QueryResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              email:
+                type: string
+              profileName:
+                type: string
+              profilePic:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              gender:
+                type: string
+                enum:
+                  - male
+                  - female
+                  - preferNotSay
+                  - others
+              dob:
+                type: string
+                format: date
+              relationshipStatus:
+                type: string
+                enum:
+                  - single
+                  - inRelationship
+                  - married
+                  - complicated
+              State:
+                type: string
+              currentCity:
+                type: string
+              birthCity:
+                type: string
+              interests:
+                type: array
+              hobbies:
+                type: array
+              status:
+                type: string
+                enum:
+                  - active
+                  - deactivate
+              workPlace:
+                type: string
+              profession:
+                type: string
+              educationInstitute:
+                type: string
+
+
 paths:
   /user/{id}:
     get:
@@ -458,14 +522,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/userData'
-                  - type: object
-                    properties:
-                      totalPages:
-                        type: integer
-                      size:
-                        type: integer
+                $ref: '#/components/schemas/QueryResponse'
         '400':
           description: Bad Request
           content:
