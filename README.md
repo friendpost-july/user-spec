@@ -9,7 +9,7 @@ The User service will be implemented using the MERN stack.
 
 ```mermaid
 C4Container
-title Container diagram for Internet Banking System
+title Container diagram for User Management
 
 Container_Boundary(userservice, "User Management") {
     Container(nodeapp, "User API Node App","node.js")
