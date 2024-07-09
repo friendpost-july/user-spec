@@ -11,9 +11,10 @@ components:
     userData:
       type: object
       required:
-        - email
-        - firstName
+        - id
       properties:
+        id:
+          type: string
         email:
           type: string
         profileName:
@@ -72,7 +73,7 @@ components:
     userStatus:
       type: object
       properties:
-        email:
+        id:
           type: string
         status:
           type: string
@@ -125,12 +126,12 @@ components:
         educationInstitute:
           type: string
 paths:
-  /user/{email}:
+  /user/{id}:
     get:
-      summary: Get user data by providing user email
+      summary: Get user data by providing user id
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -148,10 +149,10 @@ paths:
               #   success: true
               #   data:
     put:
-      summary: Update user data by providing user email
+      summary: Update user data by providing user id
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -162,10 +163,10 @@ paths:
         '200':
           description: OK
     delete:
-      summary: Permanently delete the user account by providing user email
+      summary: Permanently delete the user account by providing user id
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -176,12 +177,12 @@ paths:
         '200':
           description: OK
     
-  /user/status/{email}:
+  /user/status/{id}:
     get:
       summary: Get user account status
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -196,10 +197,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/userStatus'
     patch:
-      summary: Activate/Deactivate user account by providing user email
+      summary: Activate/Deactivate user account by providing user id
       parameters:
-      - name: email
-        description: Registered user email id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -221,5 +222,4 @@ paths:
       responses:
         '200':
           description: OK
-
 
