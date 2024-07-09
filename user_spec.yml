@@ -181,8 +181,6 @@ components:
               educationInstitute:
                 type: string
 
-
-
 paths:
   /user/{id}:
     get:
@@ -460,7 +458,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userData'
+                allOf:
+                  - $ref: '#/components/schemas/userData'
+                  - type: object
+                    properties:
+                      totalPages:
+                        type: integer
+                      size:
+                        type: integer
         '400':
           description: Bad Request
           content:
