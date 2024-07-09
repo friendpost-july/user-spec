@@ -246,7 +246,7 @@ components:
 
 
 paths:
-  /user/{id}:
+  /users/{id}:
     get:
       summary: Get user data by providing user id
       tags:
@@ -381,7 +381,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
-  /user/status/{id}:
+  /users/status/{id}:
     get:
       summary: Get user account status
       tags:
@@ -466,7 +466,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
-  /user:
+  /users:
     post:
       summary: Create a new user account
       tags:
@@ -505,7 +505,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
-  /users:
+  /users/filter:
     post:
       summary: Query users with filters
       tags:
