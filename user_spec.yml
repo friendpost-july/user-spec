@@ -1,7 +1,7 @@
 openapi: '3.0.3'
 info:
   title: User Service API Spec
-  version: '1.0'
+  version: '0.1.1'
 servers:
   - url: http://localhost:8080/v1
 
@@ -125,7 +125,7 @@ components:
         educationInstitute:
           type: string
 paths:
-  /users/{email}:
+  /user/{email}:
     get:
       summary: Get user data by providing user email
       parameters:
@@ -162,7 +162,7 @@ paths:
         '200':
           description: OK
     delete:
-      summary: Deactivate user account by providing user email
+      summary: Permanently delete the user account by providing user email
       parameters:
       - name: email
         description: Registered user email id
@@ -176,7 +176,7 @@ paths:
         '200':
           description: OK
     
-  /users/status/{email}:
+  /user/status/{email}:
     get:
       summary: Get user account status
       parameters:
@@ -195,8 +195,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userStatus'
+    patch:
+      summary: Activate/Deactivate user account by providing user email
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
            
-  /users:
+  /user:
     post:
       summary: Create a new user account
       requestBody:
