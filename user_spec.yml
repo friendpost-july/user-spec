@@ -70,16 +70,28 @@ components:
         educationInstitute:
           type: string
     
-    userStatus:
+    userStatusQuery:
       type: object
       properties:
         id:
-          type: string
-        status:
-          type: string
-          enum:
-            - active
-            - deactivate
+          type: array
+          items:
+            type: string
+    
+    userStatus:
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: string
+          status:
+            type: string
+          deactivateAt:
+            type: string
+            format: date-time
+          
+
     
     userUpdate:
       type: object
@@ -117,14 +129,51 @@ components:
           type: string
         interests:
           type: array
+          items:
+            type: string
         hobbies:
           type: array
+          items:
+            type: string
         workPlace:
           type: string
         profession:
           type: string
         educationInstitute:
           type: string
+    QueryRequest:
+      type: object
+      properties:
+        relationshipStatus:
+          type: string
+          enum:
+            - single
+            - inRelationship
+            - married
+            - complicated
+        State:
+          type: string
+        currentCity:
+          type: string
+        birthCity:
+          type: string
+        interests:
+          type: array
+          items:
+            type: string
+        hobbies:
+          type: array
+          items:
+            type: string
+        workPlace:
+          type: string
+        profession:
+          type: string
+        educationInstitute:
+          type: string
+
+
+
 paths:
   /user/{id}:
     get:
@@ -178,24 +227,6 @@ paths:
           description: OK
     
   /user/status/{id}:
-    get:
-      summary: Get user account status
-      parameters:
-      - name: id
-        description: Registered user id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userStatus'
     patch:
       summary: Activate/Deactivate user account by providing user id
       parameters:
@@ -223,3 +254,32 @@ paths:
         '200':
           description: OK
 
+  /users:
+    post:
+      summary: Query users with filters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful response
+
+  /users/status:
+    get:
+      summary: Get user(s) account status
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/userStatusQuery'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatus'
+    
