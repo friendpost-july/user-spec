@@ -457,6 +457,27 @@ paths:
       responses:
         '200':
           description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userData'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Bad Request:
+                  value:
+                    success: false
+                    message: Bad Request
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
 
   /users/status:
     get:
