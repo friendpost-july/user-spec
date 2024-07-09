@@ -69,7 +69,7 @@ components:
           type: string
         educationInstitute:
           type: string
-    
+
     userStatusQuery:
       type: object
       properties:
@@ -77,22 +77,22 @@ components:
           type: array
           items:
             type: string
-    
+
     userStatus:
       type: array
       items:
         type: object
         properties:
-          id: 
+          id:
             type: string
           status:
             type: string
           deactivateAt:
             type: string
             format: date-time
-          
 
-    
+
+
     userUpdate:
       type: object
       properties:
@@ -178,6 +178,8 @@ paths:
   /user/{id}:
     get:
       summary: Get user data by providing user id
+      tags:
+        - User
       parameters:
       - name: id
         description: Registered user id
@@ -197,8 +199,34 @@ paths:
               # example:
               #   success: true
               #   data:
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Data type mismatch.
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                not found:
+                  value:
+                    message: Not found
     put:
       summary: Update user data by providing user id
+      tags:
+        - User
       parameters:
       - name: id
         description: Registered user id
@@ -211,8 +239,35 @@ paths:
       responses:
         '200':
           description: OK
+        '404':
+          description: not found
+          content:
+            application/json:
+              examples:
+                not found:
+                  value:
+                    message: User with the given id does not exist
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Data type mismatch.
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
+
     delete:
       summary: Permanently delete the user account by providing user id
+      tags:
+        - User
       parameters:
       - name: id
         description: Registered user id
@@ -225,10 +280,85 @@ paths:
       responses:
         '200':
           description: OK
-    
+          content:
+            application/json:
+              examples:
+                User Deleted:
+                  value:
+                    message: User account successfully deleted
+        '404':
+          description: not found
+          content:
+            application/json:
+              examples:
+                not found:
+                  value:
+                    message: User with the given id does not exist
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Data type mismatch.
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
   /user/status/{id}:
+    get:
+      summary: Get user account status
+      tags:
+        - Status
+      parameters:
+      - name: email
+        description: Registered user email id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatus'
+        '404':
+          description: not found
+          content:
+            application/json:
+              examples:
+                not found:
+                  value:
+                    message: User with the given id does not exist
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Data type mismatch.
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
     patch:
       summary: Activate/Deactivate user account by providing user id
+      tags:
+        - Status
       parameters:
       - name: id
         description: Registered user id
@@ -241,22 +371,74 @@ paths:
       responses:
         '200':
           description: OK
-           
+        '404':
+          description: not found
+          content:
+            application/json:
+              examples:
+                not found:
+                  value:
+                    message: User with the given id does not exist
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Data type mismatch.
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
   /user:
     post:
       summary: Create a new user account
+      tags:
+        - User
       requestBody:
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/userData'
       responses:
-        '200':
+        '201':
           description: OK
 
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Bad Request:
+                  value:
+                    success: false
+                    message: Email ID and First Name are required fields
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              examples:
+                Data type mismatch:
+                  value:
+                    message: Expected JSON data
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
   /users:
     post:
       summary: Query users with filters
+      tags:
+        - User
       requestBody:
         required: true
         content:
@@ -270,6 +452,8 @@ paths:
   /users/status:
     get:
       summary: Get user(s) account status
+      tags:
+        - Status
       requestBody:
         content:
           application/json:
@@ -282,4 +466,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userStatus'
-    
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Bad Request:
+                  value:
+                    success: false
+                    message: Bad Request
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              examples:
+                Method not allowed:
+                  value:
+                    message: Method not allowed
