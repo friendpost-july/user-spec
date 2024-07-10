@@ -53,7 +53,7 @@ components:
           # type: array
           items:
             type: string
-        status:
+        active:
           type: boolean
         createdAt:
           type: string
@@ -111,7 +111,7 @@ components:
           type: array
           items:
             type: string
-        status:
+        active:
           type: boolean
         createdAt:
           type: string
@@ -146,7 +146,7 @@ components:
         properties:
           id:
             type: string
-          status:
+          active:
             type: boolean
           deactivateAt:
             type: string
@@ -204,7 +204,7 @@ components:
       properties:
         pageNum:
           type: integer
-        size:
+        pageSize:
           type: integer
         filter:
           type: object
@@ -234,7 +234,7 @@ components:
                 type: string
               educationInstitute:
                 type: string
-              status:
+              active:
                 type: boolean
 
     QueryResponse:
@@ -242,7 +242,9 @@ components:
       properties:
         totalCount:
           type: integer
-        size:
+        pageSize:
+          type: integer
+        pageNum:
           type: integer
         data:
           type: array
@@ -286,7 +288,7 @@ components:
                 type: array
               hobbies:
                 type: array
-              status:
+              active:
                 type: boolean
                 enum:
                   - active
@@ -303,7 +305,7 @@ components:
       properties:
         id:
           type: string
-        status:
+        active:
           type: boolean
         fullName:
           type: string
