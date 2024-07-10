@@ -535,6 +535,7 @@ paths:
                 Method not allowed:
                   value:
                     message: Method not allowed
+  /users/status/{_id}:
     patch:
       summary: Activate/Deactivate user account by providing user _id
       tags:
