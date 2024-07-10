@@ -3,7 +3,7 @@ info:
   title: User Service API Spec
   version: '0.1.1'
 servers:
-  - url: http://localhost:8080/v1
+  - url: http://localhost:12345/v1
 
 
 components:
@@ -14,7 +14,7 @@ components:
         - email
         - fullName
       properties:
-        _id:
+        id:
           type: string
         email:
           type: string
@@ -134,7 +134,7 @@ components:
     userStatusQuery:
       type: object
       properties:
-        _id:
+        id:
           type: array
           items:
             type: string
@@ -144,7 +144,7 @@ components:
       items:
         type: object
         properties:
-          _id:
+          id:
             type: string
           status:
             type: boolean
@@ -198,6 +198,7 @@ components:
           type: string
         educationInstitute:
           type: string
+
     QueryRequest:
       type: object
       properties:
@@ -248,7 +249,7 @@ components:
           items:
             type: object
             properties:
-              _id:
+              id:
                 type: string
               email:
                 type: string
@@ -300,10 +301,12 @@ components:
     userStatusResponse:
       type: object
       properties:
-        _id:
+        id:
           type: string
         status:
           type: boolean
+        fullName:
+          type: string
 
 paths:
   /users:
@@ -312,7 +315,7 @@ paths:
       tags:
         - User
       parameters:
-        - name: _id
+        - name: ids
           in: query
           description: string of comma separated ids (one or more)
           required: true
@@ -328,9 +331,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/userData'
-              # example:
-              #   success: true
-              #   data:
         '422':
           description: Unprocessable Content
           content:
@@ -339,22 +339,14 @@ paths:
                 Data type mismatch:
                   value:
                     message: Data type mismatch.
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              examples:
-                not found:
-                  value:
-                    message: Not found
+                    message: Internal Server Error
     post:
       summary: Create a new user account
       tags:
@@ -379,7 +371,7 @@ paths:
               examples:
                 Bad Request:
                   value:
-                    message: Email _id and First Name are required fields
+                    message: Email id and First Name are required fields
         '422':
           description: Unprocessable Content
           content:
@@ -388,22 +380,22 @@ paths:
                 Data type mismatch:
                   value:
                     message: Expected JSON data
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
-  /users/{_id}:
+                    message: Internal Server Error
+  /users/{id}:
     put:
-      summary: Update user data by providing user _id
+      summary: Update user data by providing user id
       tags:
         - User
       parameters:
-      - name: _id
-        description: Registered user _id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -419,7 +411,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/userData'
-
         '404':
           description: not found
           content:
@@ -427,7 +418,7 @@ paths:
               examples:
                 not found:
                   value:
-                    message: User with the given _id does not exist
+                    message: User with the given id does not exist
         '422':
           description: Unprocessable Content
           content:
@@ -436,22 +427,22 @@ paths:
                 Data type mismatch:
                   value:
                     message: Data type mismatch.
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
+                    message: Internal Server Error
 
     delete:
-      summary: Permanently delete the user account by providing user _id
+      summary: Permanently delete the user account by providing user id
       tags:
         - User
       parameters:
-      - name: _id
-        description: Registered user _id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -465,7 +456,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/userData'
-
         '404':
           description: not found
           content:
@@ -473,7 +463,7 @@ paths:
               examples:
                 not found:
                   value:
-                    message: User with the given _id does not exist
+                    message: User with the given id does not exist
         '422':
           description: Unprocessable Content
           content:
@@ -482,23 +472,23 @@ paths:
                 Data type mismatch:
                   value:
                     message: Data type mismatch.
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
-  /users/status:
+                    message: Internal Server Error
+  /user-statuses:
     get:
       summary: Get user account status querying with a list of comma separated ids
       tags:
         - Status
       parameters:
-        - name: _id
+        - name: ids
           in: query
-          description: List of comma separated ids
+          description: string of comma separated ids
           required: true
           schema:
             type: string
@@ -511,14 +501,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/userStatusResponse'
-        '404':
-          description: not found
-          content:
-            application/json:
-              examples:
-                not found:
-                  value:
-                    message: User with the given _id does not exist
         '422':
           description: Unprocessable Content
           content:
@@ -527,22 +509,22 @@ paths:
                 Data type mismatch:
                   value:
                     message: Data type mismatch.
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
-  /users/status/{_id}:
+                    message: Internal Server Error
+  /user-status/{id}:
     patch:
-      summary: Activate/Deactivate user account by providing user _id
+      summary: Activate/Deactivate user account by providing user id
       tags:
         - Status
       parameters:
-      - name: _id
-        description: Registered user _id
+      - name: id
+        description: Registered user id
         in: path
         required: true
         style: simple
@@ -552,6 +534,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userStatusResponse'
         '404':
           description: not found
           content:
@@ -559,7 +545,7 @@ paths:
               examples:
                 not found:
                   value:
-                    message: User with the given _id does not exist
+                    message: User with the given id does not exist
         '422':
           description: Unprocessable Content
           content:
@@ -568,15 +554,15 @@ paths:
                 Data type mismatch:
                   value:
                     message: Data type mismatch.
-        '405':
-          description: Method Not Allowed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
-  /users/filter:
+                    message: Internal Server Error
+  /user-filters:
     post:
       summary: Query users with filters
       tags:
@@ -601,12 +587,12 @@ paths:
               examples:
                 Bad Request:
                   value:
-                    message: Bad Request
-        '405':
-          description: Method Not Allowed
+                    message: filters malformed
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               examples:
-                Method not allowed:
+                Internal Server Error:
                   value:
-                    message: Method not allowed
+                    message: Internal Server Error
